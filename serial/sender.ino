@@ -5,8 +5,8 @@ SoftwareSerial mySerial(10, 11); // RX, TX
 char mystr[10] = "Coucou"; //String data
 
 void setup() {
-  // Begin the Serial at 9600 Baud
-  mySerial.begin(9600);
+  // Begin the Serial at 57600 Baud
+  mySerial.begin(57600);
 }
 
 void loop() {
