@@ -60,8 +60,26 @@ void loop()
   uint8_t i = LoRaBee.send(1, buf, sizeof(buf));
   debugSerial.print("LoRa send: ");
   debugSerial.println(i);
+  downlink();
   debugSerial.println("Need wait 5 seconds...");
   delay(5000);
+}
 
-  debugSerial.println("End!");
+void downlink()
+{
+  uint8_t payload[64];
+  uint16_t len = LoRaBee.receive(payload, 64);
+  String HEXPayload = "";
+  if (payload[0] != 131)
+  {
+    for (int i = 0; i < len; i++)
+    {
+      HEXPayload += String(payload[i], HEX);
+    }
+    debugSerial.println(HEXPayload);
+  }
+  else
+  {
+    debugSerial.println("no payload");
+  }
 }
