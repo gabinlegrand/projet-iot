@@ -14,8 +14,8 @@ char rxStr[50];
 
 void setup()
 {  
-  debugSerial.begin(9600);
-  Serial.begin(9600);
+  debugSerial.begin(57600);
+  Serial.begin(57600);
   loraSerial.begin(LoRaBee.getDefaultBaudRate()) ;
   
   delay(10000) ;
@@ -64,12 +64,7 @@ void loop()
   debugSerial.print("LoRa send: ");
   debugSerial.println(i);
   downlink();
-  if (Serial.available() > 0)
-  {
-    Serial.readBytes(rxStr, 10);
-    debugSerial.println(rxStr);
-    delay(1000);
-  }
+  rxtx();
   debugSerial.println("");
   debugSerial.println("Need wait 1 seconds...");
   delay(1000);
@@ -92,4 +87,13 @@ void downlink()
   {
     debugSerial.println("no payload");
   }
+}
+
+void rxtx(){
+  if (Serial.available() > 0)
+    {
+      Serial.readBytes(rxStr, 10);
+      debugSerial.println(rxStr);
+      delay(1000);
+    }
 }
