@@ -10,9 +10,12 @@ const uint8_t appKey[16] = {0xAF, 0xCF, 0x06, 0x67, 0x06, 0x72, 0xD9, 0x2D, 0x31
 // Payload is 'Microchip ExpLoRa' in HEX
 const uint8_t testPayload[] = {0x4d, 0x69, 0x63, 0x72, 0x6f, 0x63, 0x68, 0x69, 0x70, 0x20, 0x45, 0x78, 0x70, 0x4c, 0x6f, 0x52, 0x61} ;
 
+char rxStr[50];
+
 void setup()
 {  
-  debugSerial.begin(57600) ;
+  debugSerial.begin(9600);
+  Serial.begin(9600);
   loraSerial.begin(LoRaBee.getDefaultBaudRate()) ;
   
   delay(10000) ;
@@ -61,8 +64,15 @@ void loop()
   debugSerial.print("LoRa send: ");
   debugSerial.println(i);
   downlink();
-  debugSerial.println("Need wait 5 seconds...");
-  delay(5000);
+  if (Serial.available() > 0)
+  {
+    Serial.readBytes(rxStr, 10);
+    debugSerial.println(rxStr);
+    delay(1000);
+  }
+  debugSerial.println("");
+  debugSerial.println("Need wait 1 seconds...");
+  delay(1000);
 }
 
 void downlink()
