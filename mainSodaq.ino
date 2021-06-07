@@ -76,10 +76,10 @@ void downlink()
   uint16_t len = LoRaBee.receive(payload, 64);
   String HEXPayload = "";
   if (payload[0] != 131)
-  {
+  { 
     for (int i = 0; i < len; i++)
     {
-      HEXPayload += String(payload[i], HEX);
+      HEXPayload += String(payload[i], DEC);
     }
     debugSerial.println(HEXPayload);
   }
@@ -92,7 +92,7 @@ void downlink()
 void rxtx(){
   if (Serial.available() > 0)
     {
-      Serial.readBytes(rxStr, 10);
+      Serial.readBytes(rxStr, 20);
       debugSerial.println(rxStr);
       delay(1000);
     }
