@@ -9,7 +9,9 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 SoftwareSerial mySerial(6, 7); // RX, TX
 
 unsigned long UID = 0;
-char buf[16];
+String buf2 = "";
+char buf3[20];
+
 void setup() {
   // Begin the Serial at 57600 Baud
   mySerial.begin(57600);
@@ -22,6 +24,7 @@ void setup() {
 }
 
 void loop() {
+  buf2 = " ";
   if ( ! mfrc522.PICC_IsNewCardPresent()) {
     return;
   }
@@ -31,7 +34,12 @@ void loop() {
   if (*((unsigned long *)mfrc522.uid.uidByte) != UID) {
     UID = *((unsigned long *)mfrc522.uid.uidByte); //recup UID  unsigned long
     ltoa(UID, buf, 10);
-    Serial.println(buf);
-    mySerial.write(buf, 10);
+    for (int i = 0; i < 10; i++)
+    {
+      buf2 += String(buf[i], DEC);
+    }
+    Serial.println(buf2);
+    buf2.toCharArray(buf3, 20);
+    mySerial.write(buf3, 20);
   }
 }
