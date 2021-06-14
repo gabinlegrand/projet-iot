@@ -103,6 +103,11 @@ void downlink()
       return;
     }
 
+    if(HEXPayload == " 99108111115"){
+      closeDoor();
+      return;
+    }
+
     for (int i = 0; i < listCpt + 1; i ++)
     {
       debugSerial.println(list[i]);
@@ -123,6 +128,12 @@ void downlink()
 void servoMotor() {
   servoLeft.write(65);
   servoRight.write(5);
+  delay(2000);
+}
+
+void closeDoor() {
+  servoLeft.write(5);
+  servoRight.write(45);
   delay(2000);
 }
 
