@@ -1,27 +1,72 @@
-<html>
-    <head>
-      {% if title %}
-      <title>{{ title }} - IoT</title>
-      {% else %}
-      <title>Welcome to IoT Server</title>
-      {% endif %}
-    </head>
-    <body>
-        <div>Navbar: <a href="/index">Home</a>  <a href="/post">Data </a>  <a href="/updategate">Update Gate </a></div>
-        <hr>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-    </body>
-</html>
+{% macro row() %}<div class="row">{% endmacro %}
 
+    {% macro container() %}<div class="container">{% endmacro %}
 
+        {% macro col(cols=[]) %}<div class="col {{ cols|join(' ') }}">{% endmacro %}
 
+            {% macro enddiv() %}</div>{% endmacro %}
 
+        {% block doc -%}
+        <!DOCTYPE html>
+        <html{% block html_attribs %}{% endblock html_attribs %}>
+            {%- block html %}
+
+            <head>
+                {%- block head %}
+                <title>{% block title %}IoT{% endblock title %}</title>
+
+                {%- block metas %}
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                {%- endblock metas %}
+
+                {%- block styles %}
+                <link href="{{material_find_resource('css/materialize.css', cdn='material')}}" rel="stylesheet"
+                    media="screen">
+                {%- endblock styles %}
+                {%- endblock head %}
+            </head>
+            <body{% block body_attribs %}{% endblock body_attribs %}>
+                {% block body -%}
+                {% block navbar %}
+                <nav class="light-blue container">
+                    <a href="/index">Home</a>
+                    &nbsp;
+                    <a href="/post">Add UID</a>
+                    &nbsp;
+                    <a href="/updategate">Update Gate</a>
+                    &nbsp;
+                    <a href="/opengate">Control Gate</a>
+                    &nbsp;
+                    {% if current_user.is_anonymous %}
+                    <a href="/login">Login</a>
+                    &nbsp;
+                    {% else %}
+                    <a href="/logout">Logout</a>
+                    {% endif %}
+                </nav>
+                {%- endblock navbar %}
+                {% block content -%}
+                    <hr>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% endwith %}
+                {%- endblock content %}
+
+                {% block scripts %}
+                <script src="{{material_find_resource('jquery.js', cdn='jquery')}}"></script>
+                <script src="{{material_find_resource('js/materialize.js', cdn='material')}}"></script>
+                {%- endblock scripts %}
+                {% block footer %}
+                {%- endblock footer %}
+                {%- endblock body %}
+                </body>
+                {%- endblock html %}
+
+                </html>
+                {% endblock doc -%}
